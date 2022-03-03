@@ -4,14 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS-->
+     <!-- Bootstrap CSS-->
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <!-- pybo CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <title>Hello, pybo!</title>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock %}
+    <!-- jQuery JS-->
+    <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+    <!-- Bootstrap JS-->
+    <script src="{% static 'bootstrap.min.js' %}"></script>
 </body>
 </html>
