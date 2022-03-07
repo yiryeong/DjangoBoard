@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .forms import QuestionForm, AnswerForm
 from .models import Question
@@ -33,6 +34,7 @@ def detail(request, question_id):
 	return render(request, 'pybo/question_detail.html', context)
 
 
+@login_required(login_url='common:login')
 def answer_create(request, question_id):
 	"""
 	pybo 답변 등록
@@ -45,6 +47,8 @@ def answer_create(request, question_id):
 		form = AnswerForm(request.POST)
 		if form.is_valid():
 			answer = form.save(commit=False)
+			# request.user 현재 로그인한 계정의 User 모델 객체
+			answer.author = request.user
 			answer.create_date = timezone.now()
 			answer.question = question
 			answer.save()
@@ -55,6 +59,7 @@ def answer_create(request, question_id):
 	return render(request, 'pybo/question_detail.html', context)
 
 
+@login_required(login_url='common:login')
 def question_create(request):
 	"""
 	pybo 질문 등록
@@ -67,6 +72,7 @@ def question_create(request):
 		if form.is_valid():
 			# commit=False는 임시 저장을 의미하며 데이터가 실제 저장 되지 않는다.
 			question = form.save(commit=False)
+			question.author = request.user
 			question.create_date = timezone.now()
 			question.save()
 			return redirect('pybo:index')
