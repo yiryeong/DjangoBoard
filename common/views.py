@@ -13,7 +13,8 @@ def signup(request):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            # .is_valid() 를 통해서 검증에 통과한 값은 cleaned_data 변수명으로 사전타입 으로 제공된다.
+            username = form.cleaned_data.get('username')   # form.cleaned_data['username']
             raw_password = form.cleaned_data.get('password1')
             # authenticate, login 함수는 django.contrib.auth  패키지에 있는 함수로 사용자 인증과 로그인을 담당한다.
             # 회원가입이 완료 된 이후에 자동으로 로그인 되도록 authenticate, login 함수 사용
