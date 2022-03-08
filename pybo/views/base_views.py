@@ -50,7 +50,14 @@ def detail(request, question_id):
         :param question_id: 질문 레코드 아이디
         :return:
     """
-
+    page = request.GET.get('page', '1')
     question = get_object_or_404(Question, pk=question_id)
-    context = {'question': question}
+
+    # paging
+    answers = question.answer_set.all()
+    paginator = Paginator(answers, 2)  # 페이지당 2개씩 보여 주기
+    page_obj = paginator.get_page(page)
+
+    context = {'question': question, 'answers': page_obj, 'page': page}
+
     return render(request, 'pybo/question_detail.html', context)
